@@ -39,7 +39,7 @@ export const isAuthenticated = () => {
     return
   }
 
-  return localStorage.getItem("isLoggedIn") === "true"
+  return sessionStorage.getItem("isLoggedIn") === "true"
 }
 
 export const login = () => {
@@ -63,16 +63,19 @@ const setSession = (cb = () => {}) => (err, authResult) => {
     tokens.idToken = authResult.idToken
     tokens.expiresAt = expiresAt
     user = authResult.idTokenPayload
-    localStorage.setItem("isLoggedIn", true)
+    sessionStorage.setItem("isLoggedIn", true)
     navigate("/account")
     cb()
   }
 }
 
 export const silentAuth = callback => {
+    console.log("YO")
+    console.log(callback)
   if (!isAuthenticated()) return callback()
   auth.checkSession({}, setSession(callback))
 }
+
 
 export const handleAuthentication = () => {
   if (!isBrowser) {
@@ -92,6 +95,9 @@ export const getProfile = () => {
       { questions: ["test5", "test6", "test7", "test8"], answer: "test8" },
     ],
   }
+  if(user.sub){
+    sessionStorage.setItem("userId", `${user.sub}`)
+
   db.collection("users")
     .doc(`${user.sub}`)
     .get()
@@ -100,6 +106,10 @@ export const getProfile = () => {
         db.collection("users").doc(`${user.sub}`).set(userData)
       }
     })
+  }
+  else{
+    logout()
+  }
 
   return user
 }
@@ -108,6 +118,6 @@ export const firebaseDatabase = db.collection('users')
 
 
 export const logout = () => {
-  localStorage.setItem("isLoggedIn", false)
+  sessionStorage.setItem("isLoggedIn", false)
   auth.logout()
 }

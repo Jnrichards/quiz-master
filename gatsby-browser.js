@@ -1,5 +1,7 @@
 import React from "react"
 import { silentAuth } from "./src/pages/utils/auth"
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 class SessionCheck extends React.Component {
   constructor(props) {

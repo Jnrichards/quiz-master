@@ -1,17 +1,36 @@
-import React, {useState} from "react"
-import { Router } from "@reach/router"
-import { login, logout, isAuthenticated, getProfile, firebaseDatabase } from "./utils/auth"
+import React, { useState, useCallback } from "react"
+import { Router, Redirect } from "@reach/router"
+import {
+  login,
+  logout,
+  isAuthenticated,
+  getProfile,
+  firebaseDatabase,
+} from "./utils/auth"
 import { Link } from "gatsby"
+import Quiz from "./quiz"
+import Create from "./create"
+import Menu from "./menu"
+import PublicQuiz from "./publicQuiz"
+import Edit from "./edit"
+import { render } from "react-dom"
 
 const Home = ({ user }) => {
   return <p>Hi, {user.name ? user.name : "friend"}!</p>
 }
-const Settings = () => <p>Settings</p>
-const Quiz = ({userData}) => <p>{userData.options[0].answer}</p>
 
+const Settings = () => (
+  <p>
+    <button>t</button>
+  </p>
+)
+// const Quiz = ({userData}) => <p>{userData.options[0].answer}</p>
 
 const Account = () => {
-    const [userData, setUserData] = useState();
+  const [questions, setQuestions] = useState()
+
+  const callBackProps = useCallback(props => setQuestions(props))
+  const [userData, setUserData] = useState()
 
   if (!isAuthenticated()) {
     login()
@@ -21,20 +40,23 @@ const Account = () => {
   const user = getProfile()
   const getData = async () => {
     const doc = await firebaseDatabase.doc(`${user.sub}`).get()
-    return doc.exists? doc.data() : null; 
+    return doc.exists ? doc.data() : null
   }
 
-    getData().then((value)=> {setUserData(value)})
-
-
-
+  getData().then(value => {
+    value = !userData ? setUserData(value) : null
+  })
+  console.log(sessionStorage.getItem("isLoggedIn"))
 
   return (
-    <>
-      <nav>
-        <Link to="/account/">Home</Link>{" "}
+    <div>
+      {/* <nav>
+        <Link className="" to="/account/">Home</Link>{" "}
         <Link to="/account/settings/">Settings</Link>{" "}
         <Link to="/account/quiz/">Quiz</Link>{" "}
+        <Link to="/account/create/">Create</Link>{" "}  
+        <Link to="/account/menu/" >Menu</Link> 
+        <Link to="/account/public/">Public</Link>
         <a
           href="#logout"
           onClick={e => {
@@ -44,13 +66,97 @@ const Account = () => {
         >
           Log Out
         </a>
+      </nav> */}
+      {/* <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+          Navbar
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+             <Link className="" to="/account/">Home</Link>{" "}
+            </li>
+            <li class="nav-item">
+            <Link class="nav-link" to="/account/public/">Public</Link>{" "}  
+            </li>
+            <li class="nav-item">
+            <Link class="nav-link" to="/account/menu/" >Menu</Link> 
+            </li>
+            <li class="nav-item">
+            <Link class="nav-link" to="/account/create/">Create</Link>{" "}  
+            </li>
+          </ul>
+        </div>
+      </nav> */}
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+          QUIZ MASTER
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <Link className="nav-item nav-link" to="/account/">
+              Home
+            </Link>{" "}
+            <Link className="nav-item nav-link" to="/account/public/">
+              Public
+            </Link>{" "}
+            <Link className="nav-item nav-link" to="/account/menu/">
+              Menu
+            </Link>{" "}
+            <Link className="nav-item nav-link" to="/account/create/">
+              Create
+            </Link>{" "}
+            {/* <a
+          href="#logout"
+          onClick={e => {
+            logout()
+            e.preventDefault()
+          }}
+        >
+          Log Out
+        </a>  */}
+          </div>
+        </div>
       </nav>
+      <main style={{minHeight: "85vh"}}>
       <Router>
         <Home path="/account/" user={user} />
         <Settings path="/account/settings" />
-        <Quiz path="/account/quiz" userData={userData} />
+        <Quiz path="/account/quiz" userData={questions} />
+        <Create path="/account/create" />
+        <Menu path="/account/menu" callBackProps={callBackProps} />
+        <PublicQuiz path="/account/public" callBackProps={callBackProps} />
+        <Edit path="/account/edit/"/>
       </Router>
-    </>
+      </main>
+      <footer class="footer py-3">
+        <div class="container">
+          <span class="text-muted">&copy; Joel Richards 2020</span>
+        </div>
+      </footer>
+    </div>
   )
 }
 
