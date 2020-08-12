@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { firebaseDatabase } from "../utils/auth"
+import { firebaseDatabase, isBrowser } from "../utils/auth"
 
 export default class create extends Component {
   state = {
@@ -63,7 +63,7 @@ export default class create extends Component {
       answer: "",
     })
     console.log(this.state.details)
-
+    if(isBrowser){
     if (this.state.details.details.length > 2) {
       firebaseDatabase
         .doc(sessionStorage.getItem("userId"))
@@ -82,7 +82,7 @@ export default class create extends Component {
         title: "",
         array: [],
       })
-    }
+    }}
   }
 
   render() {

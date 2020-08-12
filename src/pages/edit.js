@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { firebaseDatabase } from "../utils/auth"
+import { firebaseDatabase, isBrowser } from "../utils/auth"
 
 export default class edit extends Component {
   state = {
@@ -19,6 +19,8 @@ export default class edit extends Component {
     const items = []
 
     const docId = sessionStorage.getItem("editDocId")
+    if(isBrowser){
+
     firebaseDatabase
       .doc(sessionStorage.getItem("userId"))
       .collection(`Questions`)
@@ -31,7 +33,7 @@ export default class edit extends Component {
 
         console.log()
         this.setState({ doc: items })
-      })
+      })}
   }
 
   chooseQuestion = event => {
@@ -76,12 +78,12 @@ export default class edit extends Component {
     array.splice(this.state.index, 1, details)
 
     console.log(array)
-
+    if(isBrowser){
     firebaseDatabase.doc(sessionStorage.getItem("userId"))
     .collection(`Questions`).doc(`${docId}`).update({
         details: array
 
-    })
+    })}
   }
 
   handleInputChange = event => {

@@ -6,6 +6,7 @@ import {
   isAuthenticated,
   getProfile,
   firebaseDatabase,
+  isBrowser
 } from "../utils/auth"
 import { Link } from "gatsby"
 import Quiz from "./quiz"
@@ -38,8 +39,10 @@ const Account = () => {
 
   const user = getProfile()
   const getData = async () => {
+    if(isBrowser){
     const doc = await firebaseDatabase.doc(`${user.sub}`).get()
     return doc.exists ? doc.data() : null
+    } 
   }
 
   getData().then(value => {

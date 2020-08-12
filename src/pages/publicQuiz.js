@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { firebaseDatabase } from "../utils/auth"
+import { firebaseDatabase, isBrowser } from "../utils/auth"
 import "bootstrap/dist/css/bootstrap.css"
 import { Link } from "gatsby"
 
@@ -7,6 +7,7 @@ export default function PublicQuiz(props) {
   const [menuItems, setMenuItems] = useState([])
 
   const getMarker = async props => {
+    if(isBrowser){
     const snapshot = await firebaseDatabase
       .doc("public")
       .collection(`Questions`)
@@ -18,16 +19,17 @@ export default function PublicQuiz(props) {
         setMenuItems(tempDoc)
       }
     })
-  }
+  }}
   getMarker()
   console.log(menuItems.details)
 
   const deleteEntry = item => {
+    if(isBrowser){
     firebaseDatabase
       .doc(sessionStorage.getItem("userId"))
       .collection(`Questions`)
       .doc(`${item}`)
-      .delete()
+      .delete()}
   }
 
   return (

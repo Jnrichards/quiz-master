@@ -1,14 +1,13 @@
 import React from 'react'
-import { firebaseDatabase } from "../utils/auth"
+import { firebaseDatabase, isBrowser } from "../utils/auth"
 
 
 export default function Score(props) {
-
-    firebaseDatabase
-    .doc(sessionStorage.getItem("userId"))
+    if(isBrowser){
+    firebaseDatabase.doc(sessionStorage.getItem("userId"))
     .collection(`Scores`)
     .doc(props.title)
-    .set({score: props.score})
+    .set({score: props.score})}
 
     return (
         <div>

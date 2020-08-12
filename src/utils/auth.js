@@ -1,8 +1,13 @@
 import auth0 from "auth0-js"
 import { navigate } from "gatsby"
-import * as firebase from "firebase"
 
-const isBrowser = typeof window !== "undefined"
+export const isBrowser = typeof window !== "undefined"
+let firebase
+let db
+if (isBrowser){
+ firebase = require("firebase")
+}
+if(isBrowser){
 
 firebase.initializeApp({
   apiKey: "AIzaSyCnKC0wF9ThsfZKJITVvm-rYq0AwBr2m5w",
@@ -14,7 +19,7 @@ firebase.initializeApp({
   appId: "1:829516799201:web:0a62a1270d65a7ec0c6ba0",
   measurementId: "G-VZWXNQTP9P",
 })
-const db = firebase.firestore()
+db = firebase.firestore()}
 
 const auth = isBrowser
   ? new auth0.WebAuth({
@@ -105,7 +110,7 @@ export const getProfile = () => {
   }
   if(user.sub){
     sessionStorage.setItem("userId", `${user.sub}`)
-
+  if(isBrowser){
   db.collection("users")
     .doc(`${user.sub}`)
     .get()
@@ -113,7 +118,7 @@ export const getProfile = () => {
       if (!doc.exists) {
         db.collection("users").doc(`${user.sub}`).set(userData)
       }
-    })
+    })}
   }
   else{
     logout()
@@ -122,7 +127,7 @@ export const getProfile = () => {
   return user
 }
 
-export const firebaseDatabase = db.collection('users')
+export const firebaseDatabase = isBrowser ? db.collection('users') : null
 
 
 export const logout = () => {
