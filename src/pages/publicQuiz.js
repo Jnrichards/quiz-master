@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { firebaseDatabase } from "./utils/auth"
+import { firebaseDatabase } from "../utils/auth"
 import "bootstrap/dist/css/bootstrap.css"
 import { Link } from "gatsby"
 

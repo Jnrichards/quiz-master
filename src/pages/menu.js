@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
-import { firebaseDatabase } from "./utils/auth"
+import { firebaseDatabase } from "../utils/auth"
 import { Link } from "gatsby"
 
 export default function Menu(props) {

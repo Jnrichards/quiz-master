@@ -6,14 +6,13 @@ import {
   isAuthenticated,
   getProfile,
   firebaseDatabase,
-} from "./utils/auth"
+} from "../utils/auth"
 import { Link } from "gatsby"
 import Quiz from "./quiz"
 import Create from "./create"
 import Menu from "./menu"
 import PublicQuiz from "./publicQuiz"
 import Edit from "./edit"
-import Logout from "./logout"
 
 const Home = ({ user }) => {
   return <p>Hi, {user.name ? user.name : "friend"}!</p>
@@ -101,7 +100,6 @@ const Account = () => {
         <Menu path="/account/menu" callBackProps={callBackProps} />
         <PublicQuiz path="/account/public" callBackProps={callBackProps} />
         <Edit path="/account/edit/"/>
-        <Logout path="/logout/"/>
       </Router>
       </main>
       <footer class="footer py-3">

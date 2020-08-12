@@ -1,5 +1,5 @@
 import React from "react"
-import { silentAuth } from "./src/pages/utils/auth"
+import { silentAuth } from "./src/utils/auth"
 import 'bootstrap/dist/css/bootstrap.css';
 
 

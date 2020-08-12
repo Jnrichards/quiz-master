@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { firebaseDatabase } from "./utils/auth"
+import { firebaseDatabase } from "../utils/auth"
 
 export default class edit extends Component {
   state = {
