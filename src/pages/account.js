@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react"
-import { Router, Redirect } from "@reach/router"
+import { Router } from "@reach/router"
 import {
   login,
   logout,
@@ -13,7 +13,7 @@ import Create from "./create"
 import Menu from "./menu"
 import PublicQuiz from "./publicQuiz"
 import Edit from "./edit"
-import { render } from "react-dom"
+import Logout from "./logout"
 
 const Home = ({ user }) => {
   return <p>Hi, {user.name ? user.name : "friend"}!</p>
@@ -50,55 +50,6 @@ const Account = () => {
 
   return (
     <div>
-      {/* <nav>
-        <Link className="" to="/account/">Home</Link>{" "}
-        <Link to="/account/settings/">Settings</Link>{" "}
-        <Link to="/account/quiz/">Quiz</Link>{" "}
-        <Link to="/account/create/">Create</Link>{" "}  
-        <Link to="/account/menu/" >Menu</Link> 
-        <Link to="/account/public/">Public</Link>
-        <a
-          href="#logout"
-          onClick={e => {
-            logout()
-            e.preventDefault()
-          }}
-        >
-          Log Out
-        </a>
-      </nav> */}
-      {/* <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-          Navbar
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-             <Link className="" to="/account/">Home</Link>{" "}
-            </li>
-            <li class="nav-item">
-            <Link class="nav-link" to="/account/public/">Public</Link>{" "}  
-            </li>
-            <li class="nav-item">
-            <Link class="nav-link" to="/account/menu/" >Menu</Link> 
-            </li>
-            <li class="nav-item">
-            <Link class="nav-link" to="/account/create/">Create</Link>{" "}  
-            </li>
-          </ul>
-        </div>
-      </nav> */}
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">
           QUIZ MASTER
@@ -128,7 +79,8 @@ const Account = () => {
             <Link className="nav-item nav-link" to="/account/create/">
               Create
             </Link>{" "}
-            {/* <a
+            <a
+            className="nav-item nav-link"
           href="#logout"
           onClick={e => {
             logout()
@@ -136,7 +88,7 @@ const Account = () => {
           }}
         >
           Log Out
-        </a>  */}
+        </a> 
           </div>
         </div>
       </nav>
@@ -149,6 +101,7 @@ const Account = () => {
         <Menu path="/account/menu" callBackProps={callBackProps} />
         <PublicQuiz path="/account/public" callBackProps={callBackProps} />
         <Edit path="/account/edit/"/>
+        <Logout path="/logout/"/>
       </Router>
       </main>
       <footer class="footer py-3">

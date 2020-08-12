@@ -152,7 +152,7 @@ export default class edit extends Component {
               />
             </div>
             <button type="submit" class="btn btn-primary">
-              Submit
+              Edit Question
             </button>
           </div>
         </form>

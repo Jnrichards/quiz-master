@@ -43,6 +43,7 @@ export const isAuthenticated = () => {
 }
 
 export const login = () => {
+  console.log("here")
   if (!isBrowser) {
     return
   }
@@ -51,13 +52,19 @@ export const login = () => {
 }
 
 const setSession = (cb = () => {}) => (err, authResult) => {
+  console.log(authResult)
+  console.log(err,"D")
+
   if (err) {
     navigate("/")
     cb()
+
     return
+
   }
 
   if (authResult && authResult.accessToken && authResult.idToken) {
+    console.log("here")
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime()
     tokens.accessToken = authResult.accessToken
     tokens.idToken = authResult.idToken
@@ -71,7 +78,7 @@ const setSession = (cb = () => {}) => (err, authResult) => {
 
 export const silentAuth = callback => {
     console.log("YO")
-    console.log(callback)
+    console.log(callback, "s")
   if (!isAuthenticated()) return callback()
   auth.checkSession({}, setSession(callback))
 }
@@ -81,6 +88,7 @@ export const handleAuthentication = () => {
   if (!isBrowser) {
     return
   }
+  console.log(setSession(),"parse")
 
   auth.parseHash(setSession())
 }
